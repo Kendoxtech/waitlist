@@ -1,0 +1,112 @@
+<!-- waitlist/templates/waitlist/index.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Join Homelander Waitlist</title>
+  <link rel="icon" href="{% static 'img/homlog.jpg' %}"> <!-- replace with actual favicon url -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-black text-white flex flex-col items-center justify-center min-h-screen">
+
+  <!-- Logo -->
+  <div class="pt-8">
+    <img src="{% static 'img/logo.png' %}" alt="Homelander Logo" class="h-16">
+  </div>
+
+  <!-- Hero Section -->
+  <div class="text-center mt-4 mb-10 px-4">
+    <h1 class="text-4xl font-bold mb-3">Welcome to Homelander</h1>
+    <p class="text-lg text-gray-300 max-w-2xl mx-auto">
+      The all-in-one platform for real estate deals — buyers, renters, legal firms, and agencies. Join the waitlist and be the first to explore smart tools built just for you.
+    </p>
+  </div>
+
+  <!-- Features Section -->
+  <div class="grid md:grid-cols-2 gap-6 px-6 max-w-4xl mb-12">
+    <div class="bg-gray-900 p-6 rounded-xl shadow-lg">
+      <h2 class="text-xl font-semibold mb-2 text-blue-400">🔹 For Buyers</h2>
+      <ul class="list-disc list-inside text-gray-300">
+        <li>Verified listings</li>
+        <li>Legal advisory built-in</li>
+        <li>Agent matchmaking</li>
+      </ul>
+    </div>
+    <div class="bg-gray-900 p-6 rounded-xl shadow-lg">
+      <h2 class="text-xl font-semibold mb-2 text-green-400">🔹 For Renters</h2>
+      <ul class="list-disc list-inside text-gray-300">
+        <li>Affordable rentals</li>
+        <li>Auto-payment reminders</li>
+        <li>Dispute resolution help</li>
+      </ul>
+    </div>
+    <div class="bg-gray-900 p-6 rounded-xl shadow-lg">
+      <h2 class="text-xl font-semibold mb-2 text-yellow-400">🔹 For Legal Firms</h2>
+      <ul class="list-disc list-inside text-gray-300">
+        <li>Manage client contracts</li>
+        <li>Earn from platform leads</li>
+        <li>Subscription tools</li>
+      </ul>
+    </div>
+    <div class="bg-gray-900 p-6 rounded-xl shadow-lg">
+      <h2 class="text-xl font-semibold mb-2 text-purple-400">🔹 For Agencies</h2>
+      <ul class="list-disc list-inside text-gray-300">
+        <li>List properties with ease</li>
+        <li>Get matched with clients</li>
+        <li>Track deals & payments</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Waitlist Form -->
+  <div class="bg-gray-800 shadow-xl rounded-xl p-8 w-full max-w-lg mx-4 mb-10">
+    <h2 class="text-2xl font-bold mb-4 text-center">🚀 Join the Homelander Waitlist</h2>
+    <form id="waitlist-form" class="space-y-4">
+      {% csrf_token %}
+      <input type="email" name="email" placeholder="Your email" required class="w-full p-3 rounded bg-gray-700 text-white placeholder-gray-400">
+      <select name="role" required class="w-full p-3 rounded bg-gray-700 text-white">
+        <option value="">Select Role</option>
+        <option value="agency">Agency</option>
+        <option value="buyer">Buyer</option>
+        <option value="renter">Renter</option>
+        <option value="legal_firm">Legal Firm</option>
+      </select>
+      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Join Waitlist</button>
+      <div id="response-msg" class="text-center text-sm mt-2"></div>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center text-gray-500 text-sm mb-4">
+    <p>📩 Contact: <a href="mailto:homelandermailing@gmail.com" class="underline">support@homelander.com</a></p>
+    <p>&copy; {{ year|default:"2025" }} Homelander. All rights reserved.</p>
+  </footer>
+
+  <!-- JS AJAX -->
+  <script>
+    const form = document.getElementById('waitlist-form');
+    const msg = document.getElementById('response-msg');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const response = await fetch("{% url 'submit_waitlist' %}", {
+        method: 'POST',
+        headers: {'X-CSRFToken': data.get('csrfmiddlewaretoken')},
+        body: data,
+      });
+      const result = await response.json();
+      if (result.success) {
+        msg.innerText = "🎉 You're on the list!";
+        msg.className = "text-green-400";
+        form.reset();
+      } else {
+        msg.innerText = "❌ " + (result.errors?.email?.[0] || "Submission failed.");
+        msg.className = "text-red-400";
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+{% comment %} templates/emails/waitlist_admin.html {% endcomment %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 640px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 48px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .logo img {
+            height: 40px;
+            width: auto;
+            margin-right: auto;
+        }
+        .social-icons {
+            display: flex;
+            gap: 12px;
+            margin-left: auto;
+        }
+        .social-icons img {
+            width: 24px;
+            height: 24px;
+        }
+        .content {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px 48px;
+        }
+        .content h2 {
+            font-size: 22px;
+            color: #ff7b00;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 12px 20px;
+            margin-top: 10px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #ff7b00;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .footer {
+            text-align: left;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #888;
+            padding: 40px 48px;
+        }
+        .unsubscribe {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        @media only screen and (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            .content {
+                padding: 20px;
+                font-size: 14px;
+            }
+            .footer {
+                padding: 20px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="logo">
+      <img src="{{ homelander }}" alt="Homelander Logo" width="150"/>
+    </div>
+    <div class="social-icons">
+      <a href="#"><img src="{{ social_icon_tiktok }}" alt="TikTok"></a>
+      <a href="#"><img src="{{ social_icon_twitter }}" alt="X"></a>
+      <a href="#"><img src="{{ social_icon_linkedin }}" alt="LinkedIn"></a>
+      <a href="#"><img src="{{ social_icon_fb }}" alt="Facebook"></a>
+      <a href="#"><img src="{{ social_icon_ig }}" alt="Instagram"></a>
+    </div>
+  </div>
+
+  <div class="content">
+    <h2>🚀 New Waitlist Signup</h2>
+    <p>Hello Admin,</p>
+    <p>A new user has joined the Homelander waitlist:</p>
+
+    <ul>
+      <li><strong>Email:</strong> {{ email }}</li>
+      <li><strong>Role:</strong> {{ role }}</li>
+      <li><strong>Joined:</strong> {{ joined }}</li>
+    </ul>
+
+    <p>Let’s make Homelander amazing!</p>
+
+    <p><strong>Best regards,</strong><br>
+    <strong>The Homelander Bot 🤖</strong></p>
+  </div>
+
+  <div class="footer">
+    <p>This is an automated email from Homelander. If you received this by mistake, please ignore.</p>
+    <p>&copy; 2025 Homelander. All rights reserved.</p>
+  </div>
+</div>
+</body>
+</html>
